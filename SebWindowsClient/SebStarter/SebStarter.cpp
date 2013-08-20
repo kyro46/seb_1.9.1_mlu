@@ -36,6 +36,7 @@
 #include "KillProc.h"
 #include "ProcMonitor.h"
 #include "../ErrorMessage.h"   // multilingual (German, English, French)
+#include "base64.h"
 
 #include <intrin.h>   // for detecting virtual machines
 
@@ -1217,6 +1218,9 @@ BOOL ReadSebStarterIni()
 				}
 				else
 				{
+					//Base64 Hook
+					strValue = base64_decode(strValue);
+
 					mpParam[strKey] = strValue;
 					//captionString = strKey  .c_str();
 					//messageString = strValue.c_str();

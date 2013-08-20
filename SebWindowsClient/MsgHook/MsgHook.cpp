@@ -33,6 +33,7 @@
 #include "MsgHook.h"
 #include "resource.h"
 #include "../ErrorMessage.h"   // multilingual (German, English, French)
+#include "base64.h"
 
 
 // C structures for logfile handling
@@ -827,6 +828,9 @@ BOOL ReadMsgHookIni()
 				}
 				else
 				{
+					//Base64 Hook
+					strValue = base64_decode(strValue);
+
 					mpParam[strKey] = strValue;
 					//captionString = strKey  .c_str();
 					//messageString = strValue.c_str();
