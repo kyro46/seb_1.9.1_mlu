@@ -737,6 +737,10 @@ namespace SebWindowsConfig
                         int      equalPosition =    fileLine.IndexOf  ("=");
                         String   leftString    =    fileLine.Remove   (equalPosition);
                         String  rightString    =    fileLine.Substring(equalPosition + 1);
+
+                        // Base64 Hook
+                        rightString = new System.Text.ASCIIEncoding().GetString(System.Convert.FromBase64String(rightString));
+
                         Boolean rightBoolean   = rightString.Equals("1");
                         Boolean foundSetting   = false;
 
@@ -908,6 +912,9 @@ namespace SebWindowsConfig
 
                         if ((rightType == TypeBoolean) && (rightBoolean == false)) rightString = "0";
                         if ((rightType == TypeBoolean) && (rightBoolean ==  true)) rightString = "1";
+
+                        // Base64 Hook
+                        rightString = System.Convert.ToBase64String(new System.Text.ASCIIEncoding().GetBytes(rightString));
 
                         // Concatenate the "...=..." line and write it
                         fileLine = leftString + "=" + rightString;
