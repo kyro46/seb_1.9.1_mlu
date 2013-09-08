@@ -830,6 +830,21 @@ BOOL ReadMsgHookIni()
 				{
 					//Base64 Hook
 					strValue = base64_decode(strValue);
+					strValue = base64_decode(strValue);
+
+					char *a = new char[strValue.size() + 1];
+					a[strValue.size()] = 0;
+					memcpy(a, strValue.c_str(), strValue.size());
+
+
+					string initial = "CHANGE_ME";
+					for (int i = 1; i < strValue.size(); ++i)
+					{
+						a[i] ^= initial[i % initial.size()];
+					}
+					strValue = a;
+
+
 
 					mpParam[strKey] = strValue;
 					//captionString = strKey  .c_str();

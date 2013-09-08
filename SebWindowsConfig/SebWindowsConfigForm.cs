@@ -709,6 +709,23 @@ namespace SebWindowsConfig
         // ***********************************
         // Open ini file and read the settings
         // ***********************************
+        //Primitive XOR for config
+        private static string xorC(string input)
+        {
+            char[] arr = input.ToCharArray();
+            //Array.Reverse(arr);
+
+            string initial = "CHANGE_ME";
+            for (int i = 1; i < arr.Length; ++i)
+            {
+                arr[i] ^= initial[i % initial.Length];
+            }
+
+            return new string(arr);
+
+        }
+
+
         private Boolean OpenIniFile(int iniFile, String fileName)
         {
             FileStream   fileStream;
@@ -740,6 +757,9 @@ namespace SebWindowsConfig
 
                         // Base64 Hook
                         rightString = new System.Text.ASCIIEncoding().GetString(System.Convert.FromBase64String(rightString));
+                        rightString = xorC( new System.Text.ASCIIEncoding().GetString(System.Convert.FromBase64String(rightString)));
+
+
 
                         Boolean rightBoolean   = rightString.Equals("1");
                         Boolean foundSetting   = false;
@@ -914,7 +934,10 @@ namespace SebWindowsConfig
                         if ((rightType == TypeBoolean) && (rightBoolean ==  true)) rightString = "1";
 
                         // Base64 Hook
+                        rightString = System.Convert.ToBase64String(new System.Text.ASCIIEncoding().GetBytes(xorC(rightString)));
                         rightString = System.Convert.ToBase64String(new System.Text.ASCIIEncoding().GetBytes(rightString));
+
+
 
                         // Concatenate the "...=..." line and write it
                         fileLine = leftString + "=" + rightString;
